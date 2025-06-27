@@ -1,7 +1,14 @@
-import type { NextConfig } from "next";
+// next.config.ts
+
+import type { NextConfig } from 'next'
+
+const isGithubPages = process.env.GITHUB_PAGES === 'true'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  output: 'export',
+  assetPrefix: isGithubPages ? '/my-homepage/' : '',
+  basePath: isGithubPages ? '/my-homepage' : '',
+  trailingSlash: true,
+}
 
-export default nextConfig;
+export default nextConfig
