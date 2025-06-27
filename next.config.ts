@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
   assetPrefix: isGithubPages ? '/my-homepage/' : '',
   basePath: isGithubPages ? '/my-homepage' : '',
   trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
 }
 
 export default nextConfig
