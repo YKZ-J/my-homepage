@@ -1,36 +1,45 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { FaXTwitter } from 'react-icons/fa6'; // Xのアイコン
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-bold text-blue-600">Welcome to My Homepage</h1>
-      <p className="mt-4 text-gray-700">I am YKZ</p>
-      <div
-        className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20"
-        style={{ fontFamily: 'var(--font-geist-sans)' }}
-      >
-            <section className="flex flex-col items-center justify-center gap-8 row-start-2 w-full max-w-md mx-auto bg-white rounded-xl shadow-md p-8">
-              <Image
-                src="/profile.jpg"
-                alt="プロフィール画像"
-                width={160}
-                height={160}
-                className="rounded-full object-cover border-4 border-blue-200 shadow-lg w-32 h-32 sm:w-40 sm:h-40"
-              />
-              <h2 className="text-2xl font-semibold text-blue-700 text-center">YKZ</h2>
-              <p className="text-gray-700 text-center">Welcome to my homepage!</p>
-              <div className="flex gap-4 items-center flex-col sm:flex-row w-full">
-                <Link
-                  className="rounded-full border border-solid border-blue-500 transition-colors flex items-center justify-center hover:bg-blue-100 dark:hover:bg-blue-900 font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px] text-blue-600"
-                  href="/about"
-                >
-                  Aboutページへ
-                </Link>
-              </div>
-            </section>
-            
-          </div>
+    <main className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="w-full max-w-md mx-auto bg-white rounded-xl shadow-lg p-6 flex flex-col items-center gap-6">
+
+        {/* タイトル */}
+        <h1 className="text-2xl font-bold text-center">ykz HomePage</h1>
+
+        {/* アイコンとロゴ */}
+        <div className="flex items-center gap-4">
+          <a
+            href="https://twitter.com/ykz_tech"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-black hover:text-blue-500"
+          >
+            <FaXTwitter className="w-6 h-6" />
+            <span>（旧Twitter）</span>
+          </a>
+        </div>
+
+        {/* プロフィール画像 */}
+        <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-300">
+          <Image
+            src="/profile.jpg" // public/profile.jpg に画像を置いてください
+            alt="プロフィール画像"
+            width={96}
+            height={96}
+            className="object-cover"
+          />
+        </div>
+
+        {/* ページ内リンク */}
+        <nav className="flex flex-col items-center gap-2">
+          <a href="#about" className="text-blue-600 hover:underline block">About</a>
+          <a href="#works" className="text-blue-600 hover:underline block">Works</a>
+          <a href="#contact" className="text-blue-600 hover:underline block">Contact</a>
+        </nav>
+      </div>
     </main>
-  )
+  );
 }
