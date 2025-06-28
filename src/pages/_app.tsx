@@ -3,6 +3,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import '../styles/globals.css';
 
+
+
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { FaXTwitter } from 'react-icons/fa6'; // Xのアイコン
+const prefix = process.env.NODE_ENV === 'production' ? '/my-homepage' : '';
 
 export default function Home() {
   return (
@@ -11,21 +12,21 @@ export default function Home() {
 
         {/* アイコンとロゴ */}
         <div className="flex items-center gap-4">
-          <a
-            href="https://twitter.com/ykz_tech"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1 text-black hover:text-blue-500"
-          >
-            <FaXTwitter className="w-6 h-6" />
-            <span>（旧Twitter）</span>
-          </a>
-        </div>
+      <a
+        href="https://twitter.com/ykz_tech"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-1 text-black hover:text-blue-500"
+      >
+        <FaXTwitter className="w-6 h-6" />
+        <span>（旧Twitter）</span>
+      </a>
+</div>
 
         {/* プロフィール画像 */}
         <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-300">
           <Image
-            src="/profile.jpg" // public/profile.jpg に画像を置いてください
+            src={`${prefix}/profile.jpg`} // public/profile.jpg に画像を置いてください
             alt="プロフィール画像"
             width={96}
             height={96}
