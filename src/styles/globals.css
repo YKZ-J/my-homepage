@@ -1,5 +1,15 @@
-/* @tailwind directives removed because Tailwind CSS is not processing this file */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* @tailwind directives removed because Tailwind CSS is not processing this file */
+.container {
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
 /* カスタム変数・スタイルはここから */
 :root {
   --background: #ffffff;
