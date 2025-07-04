@@ -36,22 +36,30 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      {/* globals.cssの--backgroundが反映されるようにbg-*系クラスを削除 */}
+      <div className="flex flex-col min-h-screen" style={{ background: 'var(--background)' }}>
         {/* ヘッダー */}
-        <header className="w-full flex justify-center bg-white/80 dark:bg-gray-900/80 shadow-md backdrop-blur sticky top-0 z-30">
+        <header
+          className="w-full flex justify-center shadow-md backdrop-blur sticky top-0 z-30"
+          style={{ background: 'var(--header-bg)' }}
+        >
           <div className="flex items-center justify-between w-full" style={{ maxWidth: '1200px', width: '80vw' }}>
-            <Link href="/" className="text-2xl font-extrabold text-blue-900 dark:text-blue-200 py-3 px-2 tracking-tight hover:opacity-80 transition">
+            <Link
+              href="/"
+              className="text-2xl font-extrabold py-3 px-2 tracking-tight hover:opacity-80 transition"
+              style={{ color: 'var(--header-foreground)' }}
+            >
               ykz HomePage
             </Link>
             {/* PCナビ */}
             <nav className="hidden lg:flex gap-6 items-center">
-              <Link href="/" className="hover:text-blue-600 dark:hover:text-blue-300 transition">Home</Link>
-              <Link href="/about" className="hover:text-blue-600 dark:hover:text-blue-300 transition">About</Link>
-              <Link href="/contact" className="hover:text-blue-600 dark:hover:text-blue-300 transition">Contact</Link>
-              <Link href="/articles" className="hover:text-blue-600 dark:hover:text-blue-300 transition">Articles</Link>
-              <Link href="/auth" className="hover:text-blue-600 dark:hover:text-blue-300 transition">Auth</Link>
+              <Link href="/" className="hover:opacity-80 transition" style={{ color: 'var(--header-foreground)' }}>Home</Link>
+              <Link href="/about" className="hover:opacity-80 transition" style={{ color: 'var(--header-foreground)' }}>About</Link>
+              <Link href="/contact" className="hover:opacity-80 transition" style={{ color: 'var(--header-foreground)' }}>Contact</Link>
+              <Link href="/articles" className="hover:opacity-80 transition" style={{ color: 'var(--header-foreground)' }}>Articles</Link>
+              <Link href="/auth" className="hover:opacity-80 transition" style={{ color: 'var(--header-foreground)' }}>Auth</Link>
               {isAdmin && (
-                <Link href="/articles/create" className="hover:text-blue-600 dark:hover:text-blue-300 transition">
+                <Link href="/articles/create" className="hover:opacity-80 transition" style={{ color: 'var(--header-foreground)' }}>
                   Articles Create
                 </Link>
               )}
@@ -60,37 +68,38 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <div className="flex items-center gap-2">
               {user ? (
                 <>
-                  <span className="hidden md:inline-flex items-center text-gray-700 dark:text-gray-200 text-sm">
+                  <span className="hidden md:inline-flex items-center text-sm" style={{ color: 'var(--header-foreground)' }}>
                     <svg className="w-5 h-5 mr-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                         d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    ログイン中
+                    Active
                   </span>
                   <button
                     onClick={handleLogout}
-                    className="ml-2 px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded transition text-sm font-semibold shadow"
+                    className="button button-gray ml-2 px-3 py-1 rounded transition text-sm font-semibold shadow"
                     style={{ minWidth: "80px" }}
                   >
-                    ログアウト
+                    Log　out
                   </button>
                 </>
               ) : (
                 <button
                   onClick={handleLogin}
-                  className="flex items-center px-3 py-1 bg-blue-100 hover:bg-blue-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-blue-700 dark:text-blue-200 rounded transition text-sm font-semibold shadow"
-                  style={{ minWidth: "110px" }}
+                  className="flex items-center px-3 py-1 rounded transition text-sm font-semibold shadow"
+                  style={{ background: 'var(--secondary)', color: '#fff', minWidth: "110px" }}
                 >
                   <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                       d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  ログイン/新規登録
+                  sign in/sign up
                 </button>
               )}
               {/* ハンバーガー */}
               <button
-                className="lg:hidden ml-2 p-2 rounded hover:bg-blue-100 dark:hover:bg-gray-700 transition"
+                className="lg:hidden ml-2 p-2 rounded transition"
+                style={{ background: 'var(--secondary)', color: '#fff' }}
                 onClick={toggleMenu}
                 aria-label="Toggle menu"
               >
@@ -105,25 +114,27 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
         {/* モバイルメニュー */}
         {menuOpen && (
-          <div className="fixed inset-0 z-50 bg-gray-900/90 flex flex-col items-center justify-center lg:hidden">
+          <div className="fixed inset-0 z-50 flex flex-col items-center justify-center lg:hidden"
+            style={{ background: 'rgba(22,32,50,0.95)' }}>
             <button
               onClick={closeMenu}
               aria-label="Close menu"
-              className="absolute top-6 right-6 text-white"
+              className="absolute top-6 right-6"
+              style={{ color: '#fff' }}
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                   d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <nav className="flex flex-col gap-6 text-white text-2xl mt-12">
-              <Link href="/" onClick={closeMenu} className="hover:text-blue-400">Home</Link>
-              <Link href="/about" onClick={closeMenu} className="hover:text-blue-400">About</Link>
-              <Link href="/contact" onClick={closeMenu} className="hover:text-blue-400">Contact</Link>
-              <Link href="/articles" onClick={closeMenu} className="hover:text-blue-400">Articles</Link>
-              <Link href="/auth" onClick={closeMenu} className="hover:text-blue-400">Auth</Link>
+            <nav className="flex flex-col gap-6 text-2xl mt-12" style={{ color: '#fff' }}>
+              <Link href="/" onClick={closeMenu} className="hover:opacity-80">Home</Link>
+              <Link href="/about" onClick={closeMenu} className="hover:opacity-80">About</Link>
+              <Link href="/contact" onClick={closeMenu} className="hover:opacity-80">Contact</Link>
+              <Link href="/articles" onClick={closeMenu} className="hover:opacity-80">Articles</Link>
+              <Link href="/auth" onClick={closeMenu} className="hover:opacity-80">Auth</Link>
               {isAdmin && (
-                <Link href="/articles/create" onClick={closeMenu} className="hover:text-blue-400">
+                <Link href="/articles/create" onClick={closeMenu} className="hover:opacity-80">
                   Articles Create
                 </Link>
               )}
@@ -139,11 +150,17 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         </main>
 
         {/* フッター */}
-        <footer className="w-full flex justify-center bg-white/80 dark:bg-gray-900/80 shadow-inner py-4 mt-8">
-          <div className="text-gray-600 dark:text-gray-300 text-sm" style={{ maxWidth: '1200px', width: '80vw' }}>
-            <small>&copy; {new Date().getFullYear()} ykz All rights reserved.</small>
-          </div>
-        </footer>
+<footer
+  className="w-full flex justify-center shadow-inner py-4 mt-8"
+  style={{ background: 'var(--footer-bg)' }}
+>
+  <div
+    className="text-sm flex justify-end"
+    style={{ maxWidth: '1200px', width: '80vw', color: 'var(--footer-foreground)' }}
+  >
+    <small>&copy; {new Date().getFullYear()} ykz All rights reserved.</small>
+  </div>
+</footer>
       </div>
     </>
   );

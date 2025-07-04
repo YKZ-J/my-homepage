@@ -146,7 +146,7 @@ const validatePassword = (password: string) => {
         {/* 管理者専用UI */}
         {role === "admin" && (
           <div style={{ marginLeft: "16px", whiteSpace: "nowrap" }}>
-        <p style={{ margin: 0 }}>管理者専用</p>
+        <p style={{ margin: 0 }}>admin</p>
         {/* ここに管理者だけのボタンやリンクを追加 */}
           </div>
         )}
@@ -217,7 +217,7 @@ const validatePassword = (password: string) => {
         }}
         onClick={loginEmail} // ← ここを修正
         >
-          ログイン
+          log in
         </button>
         <button
         style={{
@@ -230,7 +230,7 @@ const validatePassword = (password: string) => {
         }}
         onClick={registerEmail}
         >
-        新規登録
+        sign up
         </button>
       </div>
       {error && (

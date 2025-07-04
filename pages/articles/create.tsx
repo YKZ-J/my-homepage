@@ -115,17 +115,17 @@ export default function ArticlesCreatePage() {
   if (!isAdmin) return <div className="text-center text-red-500 py-10">権限がありません</div>;
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <main className="min-h-screen flex items-center justify-center">
       <div
-        className="container w-full max-w-2xl bg-white/90 dark:bg-gray-800/90 rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur"
-        style={{ width: '80vw' }}
+        className="container w-full max-w-2xl rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur"
+        style={{ width: '80vw', background: 'var(--card-bg)' }}
       >
-        <h2 className="text-2xl sm:text-3xl font-bold text-blue-900 dark:text-blue-200 mb-6 text-center">
-          {id ? '記事編集' : '記事作成'}（管理者専用）
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center" style={{ color: 'var(--primary)' }}>
+          {id ? '記事編集' : '記事作成'}（admin）
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6 w-full">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">タイトル</label>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>タイトル</label>
             <input
               value={title}
               onChange={e => setTitle(e.target.value)}
@@ -135,7 +135,7 @@ export default function ArticlesCreatePage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">本文</label>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>本文</label>
             <textarea
               value={body}
               onChange={e => setBody(e.target.value)}
@@ -153,12 +153,12 @@ export default function ArticlesCreatePage() {
               id="isDraft"
               className="accent-blue-600"
             />
-            <label htmlFor="isDraft" className="text-sm text-gray-700 dark:text-gray-200 select-none">
-              下書きとして保存
+            <label htmlFor="isDraft" className="text-sm select-none" style={{ color: 'var(--foreground)' }}>
+              draft
             </label>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">画像アップロード</label>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>画像アップロード</label>
             <input type="file" accept="image/*" onChange={handleImageChange} className="block" />
             {imageUrl && (
               <div className="mt-3 flex flex-col items-center gap-2">
@@ -176,7 +176,7 @@ export default function ArticlesCreatePage() {
                   className="mt-1 px-3 py-1 text-xs bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-100 rounded transition"
                   disabled={isCompleted}
                 >
-                  画像をキャンセル
+                  cancel
                 </button>
               </div>
             )}
@@ -184,7 +184,7 @@ export default function ArticlesCreatePage() {
           <div className="flex justify-end gap-2">
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow transition-colors duration-150"
+              className="button button-blue font-semibold px-6 py-2 rounded shadow transition-colors duration-150"
               disabled={isCompleted}
             >
               {id ? '更新' : '作成'}
@@ -198,10 +198,10 @@ export default function ArticlesCreatePage() {
                 setImageFile(null);
                 setImageUrl(undefined);
               }}
-              className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-100 font-semibold px-6 py-2 rounded shadow transition-colors duration-150"
+              className="button button-gray font-semibold px-6 py-2 rounded shadow transition-colors duration-150"
               disabled={isCompleted}
             >
-              リセット
+              reset
             </button>
           </div>
         </form>
@@ -209,10 +209,10 @@ export default function ArticlesCreatePage() {
           <div className="flex justify-center mt-8">
             <button
               type="button"
-              className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded shadow transition-colors duration-150"
+              className="button button-blue font-semibold px-8 py-3 rounded shadow transition-colors duration-150"
               onClick={() => router.push('/articles')}
             >
-              作成完了
+              complete
             </button>
           </div>
         )}
