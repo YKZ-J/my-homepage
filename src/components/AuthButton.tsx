@@ -11,19 +11,13 @@ export default function AuthButton() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-    React.useEffect(() => {
+  React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, setUser);
     return () => unsubscribe();
   }, []);
 
-
-  const validateEmail = (email: string) => {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-};
-
-const validatePassword = (password: string) => {
-  return password.length >= 6;
-};
+  const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validatePassword = (password: string) => password.length >= 6;
 
   const loginEmail = async () => {
     setError("");
@@ -87,157 +81,120 @@ const validatePassword = (password: string) => {
     }
   };
 
-  // ...残りのコードはそのまま...
-
-  // ボタンのonClick
-  // onClick={loginEmail}
-  // onClick={registerEmail}
-
-
   const logout = () => signOut(auth);
-
-  // ここでroleを取得
   const role = useUserRole(user);
-
-  if (user) {
-    return (
-      <div
-        style={{
-          background: "rgba(255,255,255,0.8)",
-          borderRadius: "8px",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-          padding: "16px",
-          display: "flex",
-          alignItems: "center",
-          width: "100%",
-          minWidth: "420px",
-          gap: "16px",
-          whiteSpace: "nowrap",
-          overflow: "auto"
-        }}
-      >
-        <span
-          style={{
-        padding: "8px 16px",
-        background: "#fff",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        maxWidth: "200px",
-        display: "inline-block"
-          }}
-          title={user.email ?? ""}
-        >
-          {user.email}
-        </span>
-        <button
-          onClick={logout}
-          style={{
-        border: "1px solid #ccc",
-        borderRadius: "4px",
-        padding: "8px 16px",
-        background: "#fff",
-        cursor: "pointer",
-        whiteSpace: "nowrap"
-          }}
-        >
-          ログアウト
-        </button>
-        {/* 管理者専用UI */}
-        {role === "admin" && (
-          <div style={{ marginLeft: "16px", whiteSpace: "nowrap" }}>
-        <p style={{ margin: 0 }}>admin</p>
-        {/* ここに管理者だけのボタンやリンクを追加 */}
-          </div>
-        )}
-      </div>
-    );
-  }
 
   return (
     <div
+      className="flex flex-col items-center gap-6 w-full"
       style={{
-      display: "flex",
-      justifyContent: "flex-end",
-      alignItems: "center",
-      minHeight: "100px"
+        background: "var(--card-bg)",
+        borderRadius: "1rem",
+        boxShadow: "var(--card-shadow)",
+        padding: "2rem 1.5rem",
+        width: "100%",
+        maxWidth: "400px",
+        minWidth: "0",
       }}
     >
-      <div
-      style={{
-        background: "rgba(255,255,255,0.8)",
-        borderRadius: "8px",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-        padding: "16px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-end",
-        width: "260px"
-      }}
-      >
-      <input
-        type="email"
-        placeholder="メールアドレス"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        style={{
-        border: "1px solid #ccc",
-        borderRadius: "4px",
-        padding: "8px 16px",
-        marginBottom: "8px",
-        background: "rgba(255,255,255,0.7)",
-        width: "100%",
-        boxSizing: "border-box"
-        }}
-      />
-      <input
-        type="password"
-        placeholder="パスワード"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        style={{
-        border: "1px solid #ccc",
-        borderRadius: "4px",
-        padding: "8px 16px",
-        marginBottom: "8px",
-        background: "rgba(255,255,255,0.7)",
-        width: "100%",
-        boxSizing: "border-box"
-        }}
-      />
-       <button
-        type="button"
-        style={{
-        border: "1px solid #ccc",
-        borderRadius: "4px",
-        padding: "8px 16px",
-        background: "#fff",
-        flex: 1,
-        marginRight: "8px"
-        }}
-        onClick={loginEmail} // ← ここを修正
-        >
-          log in
-        </button>
-        <button
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "4px",
-          padding: "8px 16px",
-          background: "#fff",
-          cursor: "pointer",
-          flex: 1
-        }}
-        onClick={registerEmail}
-        >
-        sign up
-        </button>
-      </div>
-      {error && (
-        <div style={{ color: "red", marginTop: "8px", fontSize: "0.9em", width: "100%" }}>
-        {error}
-        </div>
+      {!user ? (
+        <>
+          <input
+            type="email"
+            placeholder="メールアドレス"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            className="w-full mb-2"
+            style={{
+              border: "1px solid #ccc",
+              borderRadius: "0.5rem",
+              padding: "0.75rem 1rem",
+              background: "rgba(255,255,255,0.7)",
+              fontSize: "1rem",
+              color: "var(--foreground)",
+              boxSizing: "border-box",
+            }}
+          />
+          <input
+            type="password"
+            placeholder="パスワード"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="w-full mb-2"
+            style={{
+              border: "1px solid #ccc",
+              borderRadius: "0.5rem",
+              padding: "0.75rem 1rem",
+              background: "rgba(255,255,255,0.7)",
+              fontSize: "1rem",
+              color: "var(--foreground)",
+              boxSizing: "border-box",
+            }}
+          />
+          <div className="flex w-full gap-2">
+            <button
+              type="button"
+              className="button button-blue w-1/2"
+              onClick={loginEmail}
+              style={{ minWidth: 0 }}
+            >
+              log in
+            </button>
+            <button
+              type="button"
+              className="button button-blue w-1/2"
+              onClick={registerEmail}
+              style={{ minWidth: 0 }}
+            >
+              sign up
+            </button>
+          </div>
+          {error && (
+            <div style={{ color: "#d32f2f", marginTop: "8px", fontSize: "0.95em", width: "100%", textAlign: "center" }}>
+              {error}
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          <span
+            className="truncate w-full text-center"
+            style={{
+              padding: "0.75rem 1rem",
+              background: "#fff",
+              borderRadius: "0.5rem",
+              color: "var(--foreground)",
+              fontWeight: 500,
+              fontSize: "1rem",
+              display: "block",
+              marginBottom: "1rem",
+            }}
+            title={user.email ?? ""}
+          >
+            {user.email}
+          </span>
+          <button
+            onClick={logout}
+            className="button button-blue w-full"
+            style={{ minWidth: "100px" }}
+          >
+            ログアウト
+          </button>
+          {role === "admin" && (
+            <div style={{ marginTop: "1rem", color: "#992222", fontWeight: 600 }}>
+              admin
+            </div>
+          )}
+        </>
       )}
+      <style jsx>{`
+        @media (min-width: 1024px) {
+          .flex.flex-col.items-center.gap-6 {
+            width: 100% !important;
+            max-width: 400px;
+          }
+        }
+      `}</style>
     </div>
   );
 }

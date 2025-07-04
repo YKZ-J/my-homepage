@@ -121,25 +121,25 @@ export default function ArticlesCreatePage() {
         style={{ width: '80vw', background: 'var(--card-bg)' }}
       >
         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center" style={{ color: 'var(--primary)' }}>
-          {id ? '記事編集' : '記事作成'}（admin）
+          {id ? 'edit' : 'create'}（admin）
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6 w-full">
           <div>
-            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>タイトル</label>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>title</label>
             <input
               value={title}
               onChange={e => setTitle(e.target.value)}
-              placeholder="タイトル"
+              placeholder="title"
               required
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:text-gray-100 transition"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>本文</label>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>body</label>
             <textarea
               value={body}
               onChange={e => setBody(e.target.value)}
-              placeholder="本文"
+              placeholder="body"
               required
               rows={8}
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:text-gray-100 transition resize-y"
@@ -158,7 +158,7 @@ export default function ArticlesCreatePage() {
             </label>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>画像アップロード</label>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>image upload</label>
             <input type="file" accept="image/*" onChange={handleImageChange} className="block" />
             {imageUrl && (
               <div className="mt-3 flex flex-col items-center gap-2">
@@ -187,7 +187,7 @@ export default function ArticlesCreatePage() {
               className="button button-blue font-semibold px-6 py-2 rounded shadow transition-colors duration-150"
               disabled={isCompleted}
             >
-              {id ? '更新' : '作成'}
+              {id ? 'update' : 'create'}
             </button>
             <button
               type="button"
