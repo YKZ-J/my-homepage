@@ -2,29 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @tailwind directives removed because Tailwind CSS is not processing this file */
+/* レスポンシブでモダンなコンテナ */
 .container {
-  max-width: 1024px;
+  width: 100%;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  background: rgba(255,255,255,0.95);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  transition: background 0.3s;
 }
-/* カスタム変数・スタイルはここから */
+
+@media (min-width: 1024px) {
+  .container {
+    width: 80vw;
+    max-width: 1200px;
+    padding: 2.5rem 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.10);
+  }
+  html {
+    font-size: 15px;
+  }
+}
+
+/* カスタム変数・ダークモード対応（ここを1セットだけに統一） */
 :root {
-  --background: #ffffff;
+  --background: #a2174c; /* 薄いネイビー */
   --foreground: #171717;
+  --primary: #2563eb;
+  --secondary: #64748b;
+  --card-bg: #fff;
+  --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #162032; /* ダーク時もネイビー系に */
     --foreground: #ededed;
+    --primary: #60a5fa;
+    --secondary: #94a3b8;
+    --card-bg: #1e293b;
+    --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
   }
 }
+
 html {
   box-sizing: border-box;
   font-size: 16px;
+  background: var(--background); /* ここで背景色を適用 */
 }
 
 *, *::before, *::after {
@@ -35,25 +70,74 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  line-height: 1.6;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-@media (max-width: 768px) {
-  html {
-    font-size: 15px;
-  }
-  .container {
-    padding: 0.5rem;
-  }
-}
-body {
+  line-height: 1.7;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', 'Noto Sans JP', Arial, Helvetica, sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* カードデザイン */
+.card {
+  background: var(--card-bg);
+  border-radius: 1rem;
+  box-shadow: var(--card-shadow);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+@media (max-width: 768px) {
+  .card {
+    padding: 1rem;
+    border-radius: 0.75rem;
+  }
+}
+
+/* ボタン */
+.button {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.button:hover {
+  background: #1d4ed8;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.12);
+}
+
+/* マークダウン本文 */
+.markdown-body h1 { font-size: 2rem; font-weight: bold; margin: 1.5rem 0 1rem; }
+.markdown-body h2 { font-size: 1.5rem; font-weight: bold; margin: 1.2rem 0 1rem; }
+.markdown-body h3 { font-size: 1.2rem; font-weight: bold; margin: 1rem 0 0.8rem; }
+.markdown-body ul { list-style: disc; margin-left: 1.5em; }
+.markdown-body p  { margin: 0.5rem 0; }
+.markdown-body img { max-width: 100%; border-radius: 0.5rem; margin: 1rem 0; }
+.markdown-body code { background: #f1f5f9; color: #2563eb; padding: 0.2em 0.4em; border-radius: 0.3em; }
+@media (prefers-color-scheme: dark) {
+  .markdown-body code { background: #1e293b; color: #60a5fa; }
+}
+
+/* 見出しやリストの余白調整 */
+.markdown-body {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-align: left;
+  font-size: 1rem;
+  color: var(--foreground);
+  line-height: 1.8;
+}
+
+/* 画像のレスポンシブ対応 */
+img, .markdown-body img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

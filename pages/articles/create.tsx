@@ -33,6 +33,7 @@ export default function ArticlesCreatePage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [isCompleted, setIsCompleted] = useState(false);
+  const DEFAULT_IMAGE_URL = '/articledefalt.png'; 
 
   const handleCancelImage = () => {
     setImageFile(null);
@@ -51,6 +52,12 @@ export default function ArticlesCreatePage() {
     try {
       const db = getFirestore(app);
       let uploadedImageUrl = imageUrl;
+
+      // 画像が未選択の場合はデフォルト画像を使用
+      if (!imageFile && !uploadedImageUrl) {
+        uploadedImageUrl = DEFAULT_IMAGE_URL;
+      }
+
       if (imageFile) {
         const storageRef = ref(storage, `articles/${Date.now()}_${imageFile.name}`);
         await uploadBytes(storageRef, imageFile);
@@ -108,103 +115,108 @@ export default function ArticlesCreatePage() {
   if (!isAdmin) return <div className="text-center text-red-500 py-10">権限がありません</div>;
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-8 bg-white rounded-lg shadow-md mt-6 mb-10">
-      <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">
-        {id ? '記事編集' : '記事作成'}（管理者専用）
-      </h2>
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">タイトル</label>
-          <input
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-            placeholder="タイトル"
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">本文</label>
-          <textarea
-            value={body}
-            onChange={e => setBody(e.target.value)}
-            placeholder="本文"
-            required
-            rows={8}
-            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition resize-y"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={isDraft}
-            onChange={e => setIsDraft(e.target.checked)}
-            id="isDraft"
-            className="accent-blue-600"
-          />
-          <label htmlFor="isDraft" className="text-sm text-gray-700 select-none">
-            下書きとして保存
-          </label>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">画像アップロード</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} className="block" />
-          {imageUrl && (
-            <div className="mt-3 flex flex-col items-center gap-2">
-              <Image
-                src={imageUrl}
-                alt="記事画像"
-                width={320}
-                height={180}
-                className="rounded object-cover border"
-                style={{ maxWidth: 320, height: "auto" }}
-              />
-              <button
-                type="button"
-                onClick={handleCancelImage}
-                className="mt-1 px-3 py-1 text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 rounded transition"
-                disabled={isCompleted}
-              >
-                画像をキャンセル
-              </button>
-            </div>
-          )}
-        </div>
-        <div className="flex justify-end gap-2">
-          <button
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-black font-semibold px-6 py-2 rounded shadow transition-colors duration-150"
-            disabled={isCompleted}
-          >
-            {id ? '更新' : '作成'}
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setTitle('');
-              setBody('');
-              setIsDraft(false);
-              setImageFile(null);
-              setImageUrl(undefined);
-            }}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold px-6 py-2 rounded shadow transition-colors duration-150"
-            disabled={isCompleted}
-          >
-            リセット
-          </button>
-        </div>
-      </form>
-      {isCompleted && (
-        <div className="flex justify-center mt-8">
-          <button
-            type="button"
-            className="bg-green-600 hover:bg-green-700 text-black font-semibold px-8 py-3 rounded shadow transition-colors duration-150"
-            onClick={() => router.push('/articles')}
-          >
-            作成完了
-          </button>
-        </div>
-      )}
-    </div>
+    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div
+        className="container w-full max-w-2xl bg-white/90 dark:bg-gray-800/90 rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur"
+        style={{ width: '80vw' }}
+      >
+        <h2 className="text-2xl sm:text-3xl font-bold text-blue-900 dark:text-blue-200 mb-6 text-center">
+          {id ? '記事編集' : '記事作成'}（管理者専用）
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-6 w-full">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">タイトル</label>
+            <input
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              placeholder="タイトル"
+              required
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:text-gray-100 transition"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">本文</label>
+            <textarea
+              value={body}
+              onChange={e => setBody(e.target.value)}
+              placeholder="本文"
+              required
+              rows={8}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:text-gray-100 transition resize-y"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={isDraft}
+              onChange={e => setIsDraft(e.target.checked)}
+              id="isDraft"
+              className="accent-blue-600"
+            />
+            <label htmlFor="isDraft" className="text-sm text-gray-700 dark:text-gray-200 select-none">
+              下書きとして保存
+            </label>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">画像アップロード</label>
+            <input type="file" accept="image/*" onChange={handleImageChange} className="block" />
+            {imageUrl && (
+              <div className="mt-3 flex flex-col items-center gap-2">
+                <Image
+                  src={imageUrl}
+                  alt="記事画像"
+                  width={320}
+                  height={180}
+                  className="rounded object-cover border"
+                  style={{ maxWidth: 320, height: "auto" }}
+                />
+                <button
+                  type="button"
+                  onClick={handleCancelImage}
+                  className="mt-1 px-3 py-1 text-xs bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-100 rounded transition"
+                  disabled={isCompleted}
+                >
+                  画像をキャンセル
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="flex justify-end gap-2">
+            <button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow transition-colors duration-150"
+              disabled={isCompleted}
+            >
+              {id ? '更新' : '作成'}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setTitle('');
+                setBody('');
+                setIsDraft(false);
+                setImageFile(null);
+                setImageUrl(undefined);
+              }}
+              className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-100 font-semibold px-6 py-2 rounded shadow transition-colors duration-150"
+              disabled={isCompleted}
+            >
+              リセット
+            </button>
+          </div>
+        </form>
+        {isCompleted && (
+          <div className="flex justify-center mt-8">
+            <button
+              type="button"
+              className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded shadow transition-colors duration-150"
+              onClick={() => router.push('/articles')}
+            >
+              作成完了
+            </button>
+          </div>
+        )}
+      </div>
+    </main>
   );
 }
