@@ -7,7 +7,6 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useUserRole } from '../../src/hooks/useUserRole';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
-import '../../src/styles/globals.css';
 
 type Article = {
   id: string;
@@ -48,22 +47,22 @@ export default function ArticleDetailPage() {
 
   // 下書き記事はadminのみ表示
   if (!article) return <div className="text-center py-10 text-gray-500">Loading...</div>;
-  if (article.isDraft && !isAdmin) return <div className="text-center py-10 text-red-500">このページは表示できません</div>;
+  if (article.isDraft && !isAdmin) return <div className="text-center py-10 text-red-500">This page isn’t available</div>;
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <main className="min-h-screen flex items-center justify-center">
       <div
-        className="w-full max-w-2xl bg-white/90 dark:bg-gray-800/90 rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur"
-        style={{ width: '80vw' }}
+        className="w-full max-w-2xl rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur"
+        style={{ width: '80vw', background: 'var(--card-bg)' }}
       >
         <h2
-          className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-blue-100 mb-6 mt-6 text-center flex items-center justify-center w-full"
-          style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem' }}
+          className="text-2xl sm:text-3xl font-bold mb-6 mt-6 text-center flex items-center justify-center w-full"
+          style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', color: 'var(--primary)' }}
         >
           {article.title}
           {isAdmin && article.isDraft && (
             <span className="ml-3 text-xs text-orange-500 border border-orange-400 rounded px-2 py-0.5 bg-orange-50 font-semibold">
-              下書き
+              draft
             </span>
           )}
         </h2>
@@ -80,13 +79,13 @@ export default function ArticleDetailPage() {
           </div>
         )}
         {article.createdAt && (
-          <div className="text-xs text-gray-400 mb-6 text-center w-full">
-            投稿日: {formatDate(article.createdAt)}
+          <div className="text-xs mb-6 text-center w-full" style={{ color: 'var(--secondary)' }}>
+            posted on: {formatDate(article.createdAt)}
           </div>
         )}
         <div
-          className="markdown-body text-gray-800 dark:text-gray-100 text-base leading-relaxed mb-4 break-words w-full px-4"
-          style={{ wordBreak: 'break-word', overflowWrap: 'break-word', textAlign: 'left' }}
+          className="markdown-body text-base leading-relaxed mb-4 break-words w-full px-4"
+          style={{ wordBreak: 'break-word', overflowWrap: 'break-word', textAlign: 'left', color: 'var(--foreground)' }}
         >
           <ReactMarkdown>
             {article.body || ''}
@@ -105,7 +104,7 @@ export default function ArticleDetailPage() {
           <div className="flex justify-end w-full">
             <Link href={`/articles/create?id=${article.id}`}>
               <button className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-100 rounded px-4 py-2 text-sm font-semibold transition-colors duration-150">
-                編集
+                edit
               </button>
             </Link>
           </div>
