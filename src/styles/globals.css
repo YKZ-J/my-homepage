@@ -18,7 +18,7 @@
 
 @media (min-width: 1024px) {
   .container {
-    width: 90vw;
+    width: 99vw;
     max-width: 1500px;
     padding: 2.5rem 3rem;
   }
@@ -26,8 +26,8 @@
 
 @media (max-width: 768px) {
   .container {
-    width: 99vw;
-    max-width: 99vw;
+    width: 99vw !important;
+    max-width: 99vw !important;
     padding: 1rem;
     border-radius: 0.75rem;
     box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.10);

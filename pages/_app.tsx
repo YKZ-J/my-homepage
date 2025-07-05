@@ -2,7 +2,6 @@ import type { AppProps } from 'next/app';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { auth } from '../src/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { useUserRole } from '../src/hooks/useUserRole';
@@ -13,7 +12,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [showAuth, setShowAuth] = useState(false); // 認証モーダル表示用
-  const router = useRouter();
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
 
@@ -324,7 +322,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
         {/* メイン */}
         <main className="flex-grow flex justify-center">
-          <div className="w-full" style={{ maxWidth: '1200px', width: '80vw' }}>
+          <div className="container">
             <Component {...pageProps} />
           </div>
         </main>

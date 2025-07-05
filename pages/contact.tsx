@@ -1,17 +1,21 @@
-import React from "react";
+import React from 'react';
 import { FaXTwitter } from 'react-icons/fa6';
 
-const X_LINK = "https://twitter.com/ykz_tech";
+const X_LINK = 'https://twitter.com/ykz_tech';
 
 const Contact: React.FC = () => (
   <main className="min-h-screen flex items-center justify-center">
-    <div
-      className="container flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur"
-    >
-      <h1 className="text-3xl font-extrabold mb-4 text-center tracking-tight" style={{ color: 'var(--primary)' }}>
+    <div className="container flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur">
+      <h1
+        className="text-3xl font-extrabold mb-4 text-center tracking-tight"
+        style={{ color: 'var(--primary)' }}
+      >
         Contact
       </h1>
-      <p className="text-base text-center mb-4" style={{ color: 'var(--foreground)' }}>
+      <p
+        className="text-base text-center mb-4"
+        style={{ color: 'var(--foreground)' }}
+      >
         ご連絡は
         <a
           href={X_LINK}

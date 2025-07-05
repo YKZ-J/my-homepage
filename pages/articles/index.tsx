@@ -35,6 +35,10 @@ function formatDate(
   return dateObj.toLocaleDateString();
 }
 
+// デフォルト画像のパス
+const basePath = process.env.NODE_ENV === 'production' ? '/my-homepage' : '';
+const DEFAULT_IMAGE_URL = `${basePath}/articledefault.png`;
+
 export default function ArticlesIndexPage() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [user] = useAuthState(auth);
@@ -106,18 +110,16 @@ export default function ArticlesIndexPage() {
                     </span>
                   )}
                 </h3>
-                {article.imageUrl && (
-                  <div className="my-4 w-full flex justify-center">
-                    <Image
-                      src={article.imageUrl}
-                      alt="image"
-                      width={240}
-                      height={160}
-                      className="rounded object-cover"
-                      style={{ maxWidth: 240, height: 'auto' }}
-                    />
-                  </div>
-                )}
+                <div className="my-4 w-full flex justify-center">
+                  <Image
+                    src={article.imageUrl || DEFAULT_IMAGE_URL}
+                    alt="image"
+                    width={240}
+                    height={160}
+                    className="rounded object-cover"
+                    style={{ maxWidth: 240, height: 'auto' }}
+                  />
+                </div>
                 <div
                   className="text-xs mt-2 text-center w-full"
                   style={{ color: 'var(--secondary)' }}

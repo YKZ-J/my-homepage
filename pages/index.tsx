@@ -15,6 +15,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const basePath = process.env.NODE_ENV === 'production' ? '/my-homepage' : '';
+const DEFAULT_IMAGE_URL = `${basePath}/articledefault.png`;
 
 type Article = {
   id: string;
@@ -126,7 +127,7 @@ export default function Home() {
             style={{ color: 'var(--primary)' }}
           >
             <FaXTwitter className="w-6 h-6" />
-            <span className="hidden sm:inline"> (Twitter)</span>
+            <span className="inline sm:inline">(Twitter)</span>
           </a>
         </div>
         {/* ページ内リンク */}
@@ -154,21 +155,19 @@ export default function Home() {
               <Link
                 key={article.id}
                 href={`/articles/${article.id}`}
-                className="article-card flex flex-col items-center max-w-xs mx-auto w-full cursor-pointer transition"
+                className="article-card flex flex-col items-center mx-auto cursor-pointer transition"
                 style={{ textDecoration: 'none', color: 'inherit' }}
               >
-                {article.imageUrl && (
-                  <div className="w-full flex justify-center mb-2">
-                    <Image
-                      src={article.imageUrl}
-                      alt="image"
-                      width={200}
-                      height={120}
-                      className="rounded object-cover"
-                      style={{ maxWidth: 200, height: 'auto' }}
-                    />
-                  </div>
-                )}
+                <div className="w-full flex justify-center mb-2">
+                  <Image
+                    src={article.imageUrl || DEFAULT_IMAGE_URL}
+                    alt="image"
+                    width={200}
+                    height={120}
+                    className="rounded object-cover"
+                    style={{ maxWidth: 200, height: 'auto' }}
+                  />
+                </div>
                 <h3
                   className="text-lg font-semibold hover:underline text-center mb-2 break-words"
                   style={{ color: 'var(--primary)' }}

@@ -27,6 +27,10 @@ function formatDate(createdAt?: { toDate?: () => Date } | string) {
   return String(createdAt);
 }
 
+// デフォルト画像のパス
+const basePath = process.env.NODE_ENV === 'production' ? '/my-homepage' : '';
+const DEFAULT_IMAGE_URL = `${basePath}/articledefault.png`;
+
 export default function ArticleDetailPage() {
   const router = useRouter();
   const { id } = router.query;
@@ -38,7 +42,7 @@ export default function ArticleDetailPage() {
   useEffect(() => {
     if (!id || typeof id !== 'string') return;
     const db = getFirestore(app);
-    getDoc(doc(db, 'articles', id)).then(snap => {
+    getDoc(doc(db, 'articles', id)).then((snap) => {
       if (snap.exists()) {
         setArticle({ id: snap.id, ...(snap.data() as Omit<Article, 'id'>) });
       }
@@ -46,17 +50,25 @@ export default function ArticleDetailPage() {
   }, [id]);
 
   // 下書き記事はadminのみ表示
-  if (!article) return <div className="text-center py-10 text-gray-500">Loading...</div>;
-  if (article.isDraft && !isAdmin) return <div className="text-center py-10 text-red-500">This page isn’t available</div>;
+  if (!article)
+    return <div className="text-center py-10 text-gray-500">Loading...</div>;
+  if (article.isDraft && !isAdmin)
+    return (
+      <div className="text-center py-10 text-red-500">
+        This page isn’t available
+      </div>
+    );
 
   return (
-  <main className="min-h-screen flex items-center justify-center">
-    <div
-      className="container flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur"
-    >
+    <main className="min-h-screen flex items-center justify-center">
+      <div className="container flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur">
         <h2
           className="text-2xl sm:text-3xl font-bold mb-6 mt-6 text-center flex items-center justify-center w-full"
-          style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', color: 'var(--primary)' }}
+          style={{
+            paddingTop: '1.5rem',
+            paddingBottom: '1.5rem',
+            color: 'var(--primary)',
+          }}
         >
           {article.title}
           {isAdmin && article.isDraft && (
@@ -65,35 +77,42 @@ export default function ArticleDetailPage() {
             </span>
           )}
         </h2>
-        {article.imageUrl && (
-          <div className="w-full flex justify-center mb-4">
-            <Image
-              src={article.imageUrl}
-              alt="image"
-              width={400}
-              height={240}
-              className="rounded-lg object-cover max-h-60 w-full sm:w-[400px]"
-              style={{ maxWidth: 400, height: "auto" }}
-            />
-          </div>
-        )}
+        <div className="w-full flex justify-center mb-4">
+          <Image
+            src={article.imageUrl || DEFAULT_IMAGE_URL}
+            alt="image"
+            width={400}
+            height={240}
+            className="rounded-lg object-cover max-h-60 w-full sm:w-[400px]"
+            style={{ maxWidth: 400, height: 'auto' }}
+          />
+        </div>
         {article.createdAt && (
-          <div className="text-xs mb-6 text-center w-full" style={{ color: 'var(--secondary)' }}>
+          <div
+            className="text-xs mb-6 text-center w-full"
+            style={{ color: 'var(--secondary)' }}
+          >
             posted on: {formatDate(article.createdAt)}
           </div>
         )}
         <div
           className="markdown-body text-base leading-relaxed mb-4 break-words w-full px-4"
-          style={{ wordBreak: 'break-word', overflowWrap: 'break-word', textAlign: 'left', color: 'var(--foreground)' }}
+          style={{
+            wordBreak: 'break-word',
+            overflowWrap: 'break-word',
+            textAlign: 'left',
+            color: 'var(--foreground)',
+          }}
         >
-          <ReactMarkdown>
-            {article.body || ''}
-          </ReactMarkdown>
+          <ReactMarkdown>{article.body || ''}</ReactMarkdown>
         </div>
         {article.tags && article.tags.length > 0 && (
           <div className="mb-2 flex flex-wrap gap-2 justify-center w-full">
-            {article.tags.map(tag => (
-              <span key={tag} className="inline-block bg-blue-100 text-blue-700 dark:bg-blue-800 dark:text-blue-200 text-xs px-2 py-0.5 rounded">
+            {article.tags.map((tag) => (
+              <span
+                key={tag}
+                className="inline-block bg-blue-100 text-blue-700 dark:bg-blue-800 dark:text-blue-200 text-xs px-2 py-0.5 rounded"
+              >
                 #{tag}
               </span>
             ))}

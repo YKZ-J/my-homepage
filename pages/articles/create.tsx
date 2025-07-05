@@ -3,10 +3,18 @@ import { auth } from '../../src/firebase';
 import { useUserRole } from '../../src/hooks/useUserRole';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { getFirestore, collection, addDoc, updateDoc, doc, getDoc, serverTimestamp } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  updateDoc,
+  doc,
+  getDoc,
+  serverTimestamp,
+} from 'firebase/firestore';
 import { app } from '../../src/firebase';
-import { storage } from "../../src/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from '../../src/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import Image from 'next/image';
 
 type ArticleDoc = {
@@ -36,7 +44,7 @@ export default function ArticlesCreatePage() {
 
   // ベースパス対応（GitHub Pages対応）
   const basePath = process.env.NODE_ENV === 'production' ? '/my-homepage' : '';
-  const DEFAULT_IMAGE_URL = `${basePath}/articledefalt.png`;
+  const DEFAULT_IMAGE_URL = `${basePath}/articledefault.png`;
 
   const handleCancelImage = () => {
     setImageFile(null);
@@ -62,7 +70,10 @@ export default function ArticlesCreatePage() {
       }
 
       if (imageFile) {
-        const storageRef = ref(storage, `articles/${Date.now()}_${imageFile.name}`);
+        const storageRef = ref(
+          storage,
+          `articles/${Date.now()}_${imageFile.name}`,
+        );
         await uploadBytes(storageRef, imageFile);
         uploadedImageUrl = await getDownloadURL(storageRef);
       }
@@ -95,14 +106,17 @@ export default function ArticlesCreatePage() {
       }
       setIsCompleted(true);
     } catch (err) {
-      alert('保存時にエラーが発生しました: ' + (err instanceof Error ? err.message : String(err)));
+      alert(
+        '保存時にエラーが発生しました: ' +
+          (err instanceof Error ? err.message : String(err)),
+      );
     }
   };
 
   useEffect(() => {
     if (id) {
       const db = getFirestore(app);
-      getDoc(doc(db, 'articles', id as string)).then(snap => {
+      getDoc(doc(db, 'articles', id as string)).then((snap) => {
         if (snap.exists()) {
           const data = snap.data();
           setTitle(data.title || '');
@@ -115,7 +129,10 @@ export default function ArticlesCreatePage() {
   }, [id]);
 
   if (loading || role === null) return <div>Loading...</div>;
-  if (!isAdmin) return <div className="text-center text-red-500 py-10">権限がありません</div>;
+  if (!isAdmin)
+    return (
+      <div className="text-center text-red-500 py-10">権限がありません</div>
+    );
 
   return (
     <main className="min-h-screen flex items-center justify-center">
@@ -123,25 +140,38 @@ export default function ArticlesCreatePage() {
         className="container w-full max-w-2xl rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur"
         style={{ width: '80vw', background: 'var(--card-bg)' }}
       >
-        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center" style={{ color: 'var(--primary)' }}>
+        <h2
+          className="text-2xl sm:text-3xl font-bold mb-6 text-center"
+          style={{ color: 'var(--primary)' }}
+        >
           {id ? 'edit' : 'create'}（admin）
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6 w-full">
           <div>
-            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>title</label>
+            <label
+              className="block text-sm font-medium mb-1"
+              style={{ color: 'var(--foreground)' }}
+            >
+              title
+            </label>
             <input
               value={title}
-              onChange={e => setTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="title"
               required
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:text-gray-100 transition"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>body</label>
+            <label
+              className="block text-sm font-medium mb-1"
+              style={{ color: 'var(--foreground)' }}
+            >
+              body
+            </label>
             <textarea
               value={body}
-              onChange={e => setBody(e.target.value)}
+              onChange={(e) => setBody(e.target.value)}
               placeholder="body"
               required
               rows={8}
@@ -152,17 +182,31 @@ export default function ArticlesCreatePage() {
             <input
               type="checkbox"
               checked={isDraft}
-              onChange={e => setIsDraft(e.target.checked)}
+              onChange={(e) => setIsDraft(e.target.checked)}
               id="isDraft"
               className="accent-blue-600"
             />
-            <label htmlFor="isDraft" className="text-sm select-none" style={{ color: 'var(--foreground)' }}>
+            <label
+              htmlFor="isDraft"
+              className="text-sm select-none"
+              style={{ color: 'var(--foreground)' }}
+            >
               draft
             </label>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>image upload</label>
-            <input type="file" accept="image/*" onChange={handleImageChange} className="block" />
+            <label
+              className="block text-sm font-medium mb-1"
+              style={{ color: 'var(--foreground)' }}
+            >
+              image upload
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="block"
+            />
             {(imageUrl || (!imageFile && !imageUrl)) && (
               <div className="mt-3 flex flex-col items-center gap-2">
                 <Image
@@ -171,7 +215,7 @@ export default function ArticlesCreatePage() {
                   width={320}
                   height={180}
                   className="rounded object-cover border"
-                  style={{ maxWidth: 320, height: "auto" }}
+                  style={{ maxWidth: 320, height: 'auto' }}
                 />
                 {imageUrl && imageUrl !== DEFAULT_IMAGE_URL && (
                   <button
