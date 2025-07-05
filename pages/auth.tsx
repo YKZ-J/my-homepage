@@ -11,7 +11,7 @@ export default function AuthPage() {
           className="text-3xl font-extrabold mb-6 text-center tracking-tight"
           style={{ color: 'var(--primary)' }}
         >
-          Authenticatoin
+          Authentication
         </h1>
         <div className="w-full flex flex-col items-center">
           <AuthButton />

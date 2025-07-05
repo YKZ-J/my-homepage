@@ -85,18 +85,7 @@ export default function AuthButton() {
   const role = useUserRole(user);
 
   return (
-    <div
-      className="flex flex-col items-center gap-6 w-full"
-      style={{
-        background: "var(--card-bg)",
-        borderRadius: "1rem",
-        boxShadow: "var(--card-shadow)",
-        padding: "2rem 1.5rem",
-        width: "100%",
-        maxWidth: "400px",
-        minWidth: "0",
-      }}
-    >
+    <div className="w-full flex flex-col items-center gap-6">
       {!user ? (
         <>
           <input
@@ -187,14 +176,6 @@ export default function AuthButton() {
           )}
         </>
       )}
-      <style jsx>{`
-        @media (min-width: 1024px) {
-          .flex.flex-col.items-center.gap-6 {
-            width: 100% !important;
-            max-width: 400px;
-          }
-        }
-      `}</style>
     </div>
   );
 }
