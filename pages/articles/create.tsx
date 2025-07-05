@@ -33,7 +33,10 @@ export default function ArticlesCreatePage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [isCompleted, setIsCompleted] = useState(false);
-  const DEFAULT_IMAGE_URL = '/articledefalt.png'; 
+
+  // ベースパス対応（GitHub Pages対応）
+  const basePath = process.env.NODE_ENV === 'production' ? '/my-homepage' : '';
+  const DEFAULT_IMAGE_URL = `${basePath}/articledefalt.png`;
 
   const handleCancelImage = () => {
     setImageFile(null);
@@ -160,24 +163,26 @@ export default function ArticlesCreatePage() {
           <div>
             <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>image upload</label>
             <input type="file" accept="image/*" onChange={handleImageChange} className="block" />
-            {imageUrl && (
+            {(imageUrl || (!imageFile && !imageUrl)) && (
               <div className="mt-3 flex flex-col items-center gap-2">
                 <Image
-                  src={imageUrl}
-                  alt="記事画像"
+                  src={imageUrl || DEFAULT_IMAGE_URL}
+                  alt="image"
                   width={320}
                   height={180}
                   className="rounded object-cover border"
                   style={{ maxWidth: 320, height: "auto" }}
                 />
-                <button
-                  type="button"
-                  onClick={handleCancelImage}
-                  className="mt-1 px-3 py-1 text-xs bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-100 rounded transition"
-                  disabled={isCompleted}
-                >
-                  cancel
-                </button>
+                {imageUrl && imageUrl !== DEFAULT_IMAGE_URL && (
+                  <button
+                    type="button"
+                    onClick={handleCancelImage}
+                    className="mt-1 px-3 py-1 text-xs bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-100 rounded transition"
+                    disabled={isCompleted}
+                  >
+                    cancel
+                  </button>
+                )}
               </div>
             )}
           </div>

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { getFirestore, collection, getDocs, query, orderBy } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  orderBy,
+} from 'firebase/firestore';
 import { app, auth } from '../../src/firebase';
 import Link from 'next/link';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -14,7 +20,9 @@ type Article = {
   createdAt?: { seconds: number; nanoseconds: number } | Date | string;
 };
 
-function formatDate(createdAt?: { seconds: number; nanoseconds: number } | Date | string) {
+function formatDate(
+  createdAt?: { seconds: number; nanoseconds: number } | Date | string,
+) {
   if (!createdAt) return '';
   let dateObj: Date;
   if (typeof createdAt === 'object' && 'seconds' in createdAt) {
@@ -39,10 +47,10 @@ export default function ArticlesIndexPage() {
       const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'));
       const snap = await getDocs(q);
       setArticles(
-        snap.docs.map(doc => ({
+        snap.docs.map((doc) => ({
           id: doc.id,
-          ...(doc.data() as Omit<Article, 'id'>)
-        }))
+          ...(doc.data() as Omit<Article, 'id'>),
+        })),
       );
     };
     fetchArticles();
@@ -51,43 +59,36 @@ export default function ArticlesIndexPage() {
   // 下書き記事はadminのみ表示
   const visibleArticles = isAdmin
     ? articles
-    : articles.filter(article => !article.isDraft);
+    : articles.filter((article) => !article.isDraft);
 
   return (
     <main className="min-h-screen flex items-center justify-center">
-      <div
-        className="w-full max-w-4xl rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur"
-        style={{ width: '80vw', background: 'var(--card-bg)' }}
-      >
+      <div className="container flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur">
         {isAdmin && (
           <div className="flex justify-start mb-8 w-full">
             <Link href="/articles/create">
-              <button
-                className="button button-blue"
-                type="button"
-              >
+              <button className="button button-blue" type="button">
                 ＋ create article
               </button>
             </Link>
           </div>
         )}
-         <h2
+        <h2
           className="text-4xl font-extrabold rounded-xl px-8 py-8 text-center w-full max-w-md mx-auto shadow-sm tracking-wide"
           style={{
             letterSpacing: '0.05em',
             fontFamily: `'Inter', 'Noto Sans JP', 'Segoe UI', 'Helvetica Neue', Arial, 'sans-serif'`,
             background: 'var(--card-bg)',
-            color: 'var(--primary)'
+            color: 'var(--primary)',
           }}
         >
           Articles
         </h2>
-       <ul className="flex flex-col gap-10 w-full mt-8">
+        <ul className="flex flex-col gap-10 w-full mt-8">
           {visibleArticles.map((article) => (
             <li
               key={article.id}
-              className="card w-full max-w-md mx-auto cursor-pointer flex flex-col items-center"
-              // hover:shadow-lgやtransition-shadowは.cardに含めるかglobals.cssで管理
+              className="article-card w-full max-w-md mx-auto cursor-pointer flex flex-col items-center"
             >
               <Link
                 href={`/articles/${article.id}`}
@@ -109,11 +110,11 @@ export default function ArticlesIndexPage() {
                   <div className="my-4 w-full flex justify-center">
                     <Image
                       src={article.imageUrl}
-                      alt="記事画像"
+                      alt="image"
                       width={240}
                       height={160}
                       className="rounded object-cover"
-                      style={{ maxWidth: 240, height: "auto" }}
+                      style={{ maxWidth: 240, height: 'auto' }}
                     />
                   </div>
                 )}
@@ -126,7 +127,10 @@ export default function ArticlesIndexPage() {
               </Link>
               {isAdmin && (
                 <div className="mt-3 w-full flex justify-end">
-                  <Link href={`/articles/create?id=${article.id}`} onClick={e => e.stopPropagation()}>
+                  <Link
+                    href={`/articles/create?id=${article.id}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <button
                       className="button button-blue text-xs px-3 py-1"
                       type="button"

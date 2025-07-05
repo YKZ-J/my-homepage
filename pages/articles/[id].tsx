@@ -50,11 +50,10 @@ export default function ArticleDetailPage() {
   if (article.isDraft && !isAdmin) return <div className="text-center py-10 text-red-500">This page isn’t available</div>;
 
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div
-        className="w-full max-w-2xl rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur"
-        style={{ width: '80vw', background: 'var(--card-bg)' }}
-      >
+  <main className="min-h-screen flex items-center justify-center">
+    <div
+      className="container flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur"
+    >
         <h2
           className="text-2xl sm:text-3xl font-bold mb-6 mt-6 text-center flex items-center justify-center w-full"
           style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', color: 'var(--primary)' }}
@@ -70,7 +69,7 @@ export default function ArticleDetailPage() {
           <div className="w-full flex justify-center mb-4">
             <Image
               src={article.imageUrl}
-              alt="記事画像"
+              alt="image"
               width={400}
               height={240}
               className="rounded-lg object-cover max-h-60 w-full sm:w-[400px]"

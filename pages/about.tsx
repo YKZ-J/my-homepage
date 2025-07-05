@@ -1,10 +1,9 @@
 export default function About() {
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div
-        className="container w-full max-w-2xl rounded-3xl shadow-2xl p-8 md:p-12 flex flex-col items-center gap-6 border border-blue-100 dark:border-gray-700 backdrop-blur"
-        style={{ width: '80vw', background: 'var(--card-bg)' }}
-      >
+  <main className="min-h-screen flex items-center justify-center">
+    <div
+      className="container flex flex-col items-center gap-8 border border-blue-100 dark:border-gray-700 backdrop-blur"
+    >
         <h1
           className="text-3xl md:text-4xl font-extrabold mb-4 text-center tracking-tight"
           style={{ color: 'var(--primary)' }}
